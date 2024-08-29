@@ -1,0 +1,16 @@
+;; examples/dump_ascii.int
+;; Happy debugging!
+
+;; #define arg1 0b1
+;; print:
+;; syscall 0b0001
+set 0b0 1
+;; start:
+;; inc arg1
+inc 0b1
+;; bnz print arg1
+set 0b10 0
+set 0b11 13
+bnz 0b10 0b1
+;; hlt
+hlt
