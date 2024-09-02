@@ -12,35 +12,35 @@ Also has a compiler
 0001: dec - Decrement a register
 0010: mov - Copy a register
 0011: set - Set a register to a value
-0100: psh - Push a register to the stack
-0101: pop - Pop and get a value from the stack
+0100: psh - Push a register to a stack
+0101: pop - Pop and get a value from a stack
 0110: beq - Branch if equal
 0111: bne - Branch if not equal
 1000: bnz - Branch if not zero
 1001: jmp - Jump
-1010: and - And 2 registers
-1011: or - Or 2 registers
-1100: xor - Xor 2 registers
+1010: and - And 2 memory
+1011: or - Or 2 memory
+1100: xor - Xor 2 memory
 1101: shl - Shift left
 1110: shr - Shift right
 1111: hlt - Halt (exit)
 ```
 
-## Registers
+## Memory
 
-8 bit registers
+8 bit memory
 
-### Special registers
+### Addresses
 
 ```list
-0b0    - does syscall
-0b1    - syscall arg 1
-0b11   - syscall arg 2
-0b100  - syscall return
-0b101  - flags
-0b110  - jump address
-0b111  - return address
-0b1111 - Assembler temp register
+0b0     - does syscall
+0b1     - syscall arg 1
+0b11    - syscall arg 2
+0b100   - syscall return
+0b101   - flags
+0b110   - jump address
+0b111   - return address
+0b1111  - Assembler temp register
 ```
 
 ## Syscalls

@@ -1,0 +1,166 @@
+;; examples/string_concat.int
+;; Happy debugging!
+
+;; #define flags 5
+;; #define sysarg1
+;; main:
+;; set 31 2
+set 31 2
+;; set 32 3
+set 32 3
+;; set 33 33
+set 33 33
+;; set 34 4
+set 34 4
+;; psh 32 !"H"
+set 0b1111 "H"
+psh 32 0b1111
+;; psh 32 !"e"
+set 0b1111 "e"
+psh 32 0b1111
+;; psh 32 !"l"
+set 0b1111 "l"
+psh 32 0b1111
+;; psh 32 0b1111
+psh 32 15
+;; psh 32 !"o"
+set 0b1111 "o"
+psh 32 0b1111
+;; psh 32 !","
+set 0b1111 ","
+psh 32 0b1111
+;; psh 32 !32
+set 0b1111 32
+psh 32 0b1111
+;; psh 31 !"W"
+set 0b1111 "W"
+psh 31 0b1111
+;; psh 31 !"o"
+set 0b1111 "o"
+psh 31 0b1111
+;; psh 31 !"r"
+set 0b1111 "r"
+psh 31 0b1111
+;; psh 31 !"l"
+set 0b1111 "l"
+psh 31 0b1111
+;; psh 31 !"d"
+set 0b1111 "d"
+psh 31 0b1111
+;; psh 31 !"!"
+set 0b1111 "!"
+psh 31 0b1111
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; psh 31 0b1111
+psh 31 15
+;; jmp str_concat
+set 0b110 196
+jmp 0b110
+;; jmp print
+set 0b110 233
+jmp 0b110
+;; str_concat:
+;; pop 31 33
+pop 31 33
+;; bnz _str_concat flags
+set 0b110 213
+bnz 0b110 5
+;; psh 34 33
+psh 34 33
+;; jmp str_concat
+set 0b110 196
+jmp 0b110
+;; _str_concat:
+;; set flags 0
+set 5 0
+;; pop 32 33
+pop 32 33
+;; bnz print flags
+set 0b110 233
+bnz 0b110 5
+;; psh 34 33
+psh 34 33
+;; jmp _str_concat
+set 0b110 213
+jmp 0b110
+;; print:
+;; set flags 0
+set 5 0
+;; pop 34 33
+pop 34 33
+;; bnz exit flags
+set 0b110 255
+bnz 0b110 5
+;; mov 33 1
+mov 33 1
+;; inc 0
+inc 0
+;; jmp print
+set 0b110 233
+jmp 0b110
+;; exit:
+;; hlt
+hlt

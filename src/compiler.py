@@ -1,7 +1,7 @@
 import sys
 import os
 from stringReader import StringReader
-import shlex
+from pprint import pprint
 
 infile = sys.argv[1]
 #outfile = sys.argv[2]
@@ -9,9 +9,6 @@ infile = sys.argv[1]
 
 with open(infile) as f:
     source = f.read()
-
-# Map variable name to integer address
-var = {}
 
 OPEN_PAREN      = 'T_OPEN_PAREN'
 CLOSE_PAREN     = 'T_CLOSE_PAREN'
@@ -145,18 +142,47 @@ def tokenize(chars: str) -> list:
 
     return final_tokens
 
-def parse_tree(tokens):
-    "Parse a list of tokens into an abstract syntax tree."
-    tree = []
+def parse_tree(tokens, first = True):
+    "Parse a list of tokens into an abstract syntax tree represented as nested lists."
+    global i
+    if first: i = 0
+    ast = []
+    while i < len(tokens):
+        token = tokens[i]
 
-for i in tokenize(source): print(i)
+        if token == OPEN_SCOPE:
+            i += 1
+            ast_ = parse_tree(tokens,False)
+            ast.append(ast_)
+
+        elif token == CLOSE_SCOPE:
+            return ast
+
+        else:
+            ast.append(token)
+
+        i += 1
+
+    return ast
+
+def out(line:str):
+    asm.append(line)
+
+
+# Example usage
+tokens = tokenize(source)
+ast = parse_tree(tokens)
+print(ast)
+
+
+#for i in tokenize(source): print(i)
 
 exit()
 
-out = []
+asm = []
 
 with open(intfile,'w') as f:
-    f.write('\n'.join(out))
+    f.write('\n'.join(asm))
 
 
 os.system(f'py intermediary.py {intfile} {outfile}')
