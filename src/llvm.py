@@ -3,22 +3,28 @@ import sys
 in_file = sys.argv[1]
 
 with open(in_file,'rb') as f:
-    p = f.read()
+    p = []
+    while True:
+        chunk = f.read(2)
+        if not chunk:
+            break
+        p.append(int.from_bytes(chunk,byteorder='little'))
 
-pc = 0b000000000 # Program Counter
-memory = [0b00000000 for _ in range(0b11111111)] # 8 bits (preallocated) of 8 bit memory
 
-sps = [0b000000000 for _ in range(0b11111111)]   # Stack Pointers
-stacks = [[] for _ in range(0b11111111)]         # Stacks
+pc = 0b000000000                                            # Program Counter
+memory = [0b00000000 for _ in range(0b11111111)]            # 8 bits (preallocated) of 8 bit memory
 
-debug = False
+stack_pointers = [0b000000000 for _ in range(0b11111111)]   # Stack Pointers
+stacks = [[] for _ in range(0b11111111)]                    # Stacks
+
+debug = True
 
 halt = False
 while pc < len(p):
     opcode = p[pc]
 
     step = 0
-    if debug: print(f'\n-- Instruction -- [{pc}]')
+    if debug: print(f'\n-- Instruction -- [{pc}={p[pc]}]')
     match opcode:
         case 0b0000:
             if debug: print("inc",p[pc+1])
@@ -39,18 +45,18 @@ while pc < len(p):
             if debug: print("set",p[pc+1],p[pc+2])
             memory[p[pc+1]] = p[pc+2]
             step = 3
-        
+
         case 0b0100:
             if debug: print('psh',p[pc+1],p[pc+2])
-            stacks[memory[p[pc+1]]].insert(sps[memory[p[pc+1]]],memory[p[pc+2]])
-            sps[memory[p[pc+1]]] += 1
+            stacks[memory[p[pc+1]]].insert(stack_pointers[memory[p[pc+1]]],memory[p[pc+2]])
+            stack_pointers[memory[p[pc+1]]] += 1
             step = 3
 
         case 0b0101:
             if debug: print('pop',p[pc+1],p[pc+2])
             try:
-                sps[memory[p[pc+1]]] -= 1
-                memory[p[pc+2]] = stacks[memory[p[pc+1]]].pop(sps[memory[p[pc+1]]])
+                stack_pointers[memory[p[pc+1]]] -= 1
+                memory[p[pc+2]] = stacks[memory[p[pc+1]]].pop(stack_pointers[memory[p[pc+1]]])
 
             except Exception as e:
                 if debug: print(f'Stack err [{e}]')
@@ -70,7 +76,7 @@ while pc < len(p):
                 pc = memory[p[pc+1]]
             else:
                 step = 4
-        
+
         case 0b1000:
             if debug: print("bnz",p[pc+1],p[pc+2])
             if memory[p[pc+2]] != 0:
@@ -111,9 +117,9 @@ while pc < len(p):
         case 0b1111:
             if debug: print("hlt")
             halt = True
-        
+
         case _:
-            print(f'SIGILL - at {pc}: {bin(p[pc])}',file=sys.stderr)
+            print(f'SIGILL - at {pc}: {bin(p[pc])} [{p[pc]}]', file=sys.stderr)
             for i,byte in enumerate(p[pc-5:pc+5]):
                 print(f'{i+pc-5:4} - {bin(byte)}')
             exit(1)
@@ -134,18 +140,18 @@ while pc < len(p):
             except Exception as e:
                 memory[0b101] = 0b10
                 if debug: print('Print error')
-        
+
         case 0b10:
             try: memory[0b100] = ord(sys.stdin.read(1))
             except Exception:
                 memory[0b101] = 0b11
-        
+
         case 0b11:
-            try: memory[0b100] = sps[memory[0b1]]
+            try: memory[0b100] = stack_pointers[memory[0b1]]
             except: ...
-        
+
         case 0b100:
-            try: sps[memory[0b1]] = memory[0b11]
+            try: stack_pointers[memory[0b1]] = memory[0b11]
             except: ...
 
     if halt:
@@ -154,5 +160,6 @@ while pc < len(p):
     memory[0b0] = 0b00
 
     pc += step
+
 print('NOHALT')
 exit(1)
