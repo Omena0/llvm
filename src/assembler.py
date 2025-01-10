@@ -28,7 +28,7 @@ debug_include = False
 includePath = 'include'
 
 result = ''
-def find_depedency(filename, dir = '.'):
+def find_dependency(filename, dir = '.'):
     global result
     if debug_include: print(f'[INCLUDE] {'    '*dir.count('/')}{dir.split('/')[-1]}')
     try:
@@ -36,7 +36,7 @@ def find_depedency(filename, dir = '.'):
             if i == filename:
                 result = f'{dir}/{i}'
             if os.path.isdir(f'{dir}/{i}'):
-                find_depedency(filename, f'{dir}/{i}')
+                find_dependency(filename, f'{dir}/{i}')
             elif debug_include: print(f'[INCLUDE]     {'    '*dir.count('/')}{i}')
     except: ...
 
@@ -67,10 +67,10 @@ while i+1 < len(p.split('\n')):
 
             if line[0] == '#define':
                 labels[line[1]] = ' '.join(line[2:])
-            
+
             elif line[0] == '#include':
                 name = line[1].strip('"\'<>')
-                path = find_depedency(name,includePath)
+                path = find_dependency(name,includePath)
                 if not path:
                     raise FileNotFoundError(f'Dependency "{name}" could not be found.')
                 with open(path) as f:

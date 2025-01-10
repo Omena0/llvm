@@ -1,3 +1,13 @@
 {
-    "python.analysis.typeCheckingMode": "off"
+    "python.analysis.typeCheckingMode": "off",
+    "files.associations": {
+        "*.toml": "toml",
+        "LICENCE": "plaintext",
+        "*.py": "python",
+        "*.ui": "python",
+        "*.int": "asm-intel-x86-generic",
+        "*.json5": "json",
+        "*.fn": "rust",
+        "*.txt": "cpp"
+    }
 }

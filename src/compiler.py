@@ -27,7 +27,6 @@ LESS_THAN       = 'T_LESS_THAN'
 GREATER_THAN_E  = 'T_GREATER_THAN_E'
 LESS_THAN_E     = 'T_LESS_THAN_E'
 INCREMENT       = 'T_INCREMENT'
-NEWLINE         = 'T_NEWLINE'
 SPACE           = 'T_SPACE'
 SEMICOLON       = 'T_SEMICOLON'
 
@@ -92,8 +91,8 @@ def tokenize_char(chars):
                     token = LESS_THAN
 
         case '\n':
-            token = NEWLINE
-        
+            return
+
         case ';':
             token = SEMICOLON
 
@@ -117,12 +116,12 @@ def tokenize(chars: str) -> list:
     "Convert a string of characters into a list of tokens."
     global i
     tokens = []
-    
+
     i = 0
     while i < len(chars):
         token = tokenize_char(chars)
 
-        tokens.append(token)
+        if token: tokens.append(token)
         i += 1
 
     final_tokens = []
@@ -175,7 +174,6 @@ ast = parse_tree(tokens)
 print(ast)
 
 
-#for i in tokenize(source): print(i)
 
 exit()
 

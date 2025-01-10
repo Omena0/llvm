@@ -3,7 +3,6 @@
     'T_OPEN_PAREN',
     'T_CLOSE_PAREN',
     [
-        'T_NEWLINE',
         'str helloworld',
         'T_ASSIGN',
         'T_OPEN_STRING',
@@ -21,7 +20,6 @@
         'T_OPEN_STRING',
         '!',
         'T_CLOSE_STRING',
-        'T_NEWLINE',
         'for',
         'T_OPEN_PAREN',
         'int i',
@@ -33,13 +31,10 @@
         'i',
         'T_INCREMENT',
         [
-            'T_NEWLINE',
             'print',
             'T_OPEN_PAREN',
             'helloworld',
-            'T_CLOSE_PAREN',
-            'T_NEWLINE'
-        ],
-        'T_NEWLINE'
+            'T_CLOSE_PAREN'
+        ]
     ]
 ]
