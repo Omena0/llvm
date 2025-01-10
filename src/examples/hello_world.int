@@ -4,56 +4,54 @@
 ;; #define sysarg1 0b1
 ;; start:
 ;; psh !"!"
-set 0b11 "!"
-psh 0b11
+set 0b1111 "!"
+psh 0b1111
 ;; psh !"d"
-set 0b11 "d"
-psh 0b11
+set 0b1111 "d"
+psh 0b1111
 ;; psh !"l"
-set 0b11 "l"
-psh 0b11
+set 0b1111 "l"
+psh 0b1111
 ;; psh !"r"
-set 0b11 "r"
-psh 0b11
+set 0b1111 "r"
+psh 0b1111
 ;; psh !"o"
-set 0b11 "o"
-psh 0b11
+set 0b1111 "o"
+psh 0b1111
 ;; psh !"w"
-set 0b11 "w"
-psh 0b11
+set 0b1111 "w"
+psh 0b1111
 ;; psh !32
-set 0b11 32
-psh 0b11
+set 0b1111 32
+psh 0b1111
 ;; psh !","
-set 0b11 ","
-psh 0b11
+set 0b1111 ","
+psh 0b1111
 ;; psh !"o"
-set 0b11 "o"
-psh 0b11
+set 0b1111 "o"
+psh 0b1111
 ;; psh !"l"
-set 0b11 "l"
-psh 0b11
+set 0b1111 "l"
+psh 0b1111
 ;; psh !"l"
-set 0b11 "l"
-psh 0b11
+set 0b1111 "l"
+psh 0b1111
 ;; psh !"e"
-set 0b11 "e"
-psh 0b11
+set 0b1111 "e"
+psh 0b1111
 ;; psh !"H"
-set 0b11 "H"
-psh 0b11
+set 0b1111 "H"
+psh 0b1111
 ;; loop:
-;; pop 0b01
-pop 1
+;; pop sysarg1
+pop 0b1
 ;; syscall 1
 set 0b0 1
 ;; bnz halt 0b101
-set 0b110 87
-set 0b111 78
+set 0b110 81
 bnz 0b110 5
 ;; jmp loop
 set 0b110 65
-set 0b111 87
 jmp 0b110
 ;; halt:
 ;; hlt

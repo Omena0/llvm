@@ -220,24 +220,27 @@ with open(intfile) as f:
                 print('SIGILL: ',line)
                 exit(1)
 
+        output[-1] = output[-1].to_bytes(2, byteorder='little')
+
         for arg in args:
             if arg == '': arg = ' '
-            if arg.startswith('0b'):
+            elif arg.startswith('0b'):
                 arg = arg.removeprefix('0b')
-                output.append(int(arg,2))
+                output.append(int(arg, 2).to_bytes(2, byteorder='little'))  # Convert to 2-byte binary format
             elif arg.startswith('0x'):
                 arg = arg.removeprefix('0x')
-                output.append(int(arg,16))
+                output.append(int(arg, 16).to_bytes(2, byteorder='little'))  # Convert to 2-byte binary format
             elif not arg.isnumeric():
-                try: output.append(ord(arg))
+                try: output.append(ord(arg).to_bytes(2, byteorder='little'))  # Convert 1-byte string to 2-byte binary format
                 except Exception as e:
                     print(arg)
                     raise e
             else:
-                output.append(int(arg))
+                output.append(int(arg).to_bytes(2, byteorder='little'))  # Convert 1-byte int to 2-byte binary format
 
 print(len(output))
+print(output)
 
-with open(outfile,'wb') as f:
-    f.write(bytes(output))
+with open(outfile, 'wb') as f:
+    f.write(b''.join(output))
 
